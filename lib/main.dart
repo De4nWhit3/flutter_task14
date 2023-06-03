@@ -21,9 +21,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  late ListModel<int> _list;
-
   MyHomePage({super.key});
 
   @override
@@ -31,22 +28,56 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  late ListModel<int> _list;
+  int? _selectedItem;
+  late int _nextItem;
+  @override
+  void initState() {
+    super.initState();
+    _list = ListModel<int>(listKey: _listKey, initialItems: <int>[0, 1, 2]);
+    _nextItem = 3;
+  }
+
+  Widget _buildItem(
+      BuildContext context, int index, Animation<double> animation) {
+    return CardItem(
+      animation: animation,
+      item: _list[index],
+      selected: _selectedItem == _list[index],
+      onTap: () {
+        setState(() {
+          _selectedItem = _selectedItem == _list[index] ? null : _list[index];
+        });
+      },
+    );
+  }
+
+  void _insert() {
+    final int index =
+        _selectedItem == null ? _list.length : _list.indexOf(_selectedItem!);
+    _list.insert(index, _nextItem++);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.red.shade400,
         title: const Text('Dean\'s Quiz App'),
+        actions: [
+          IconButton(
+            onPressed: _insert,
+            icon: Icon(Icons.plus_one),
+          ),
+        ],
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-          ],
-        ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: AnimatedList(
+            key: _listKey,
+            initialItemCount: _list.length,
+            itemBuilder: _buildItem),
       ),
     );
   }
