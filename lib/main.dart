@@ -62,13 +62,20 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.red.shade400,
       appBar: AppBar(
-        backgroundColor: Colors.red.shade400,
-        title: const Text('Dean\'s Quiz App'),
+        backgroundColor: Colors.red.shade600,
+        centerTitle: true,
+        title: Text(
+          'Dean\'s Quiz App',
+          style: TextStyle(
+            color: Colors.white.withOpacity(.7),
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: _insert,
-            icon: Icon(Icons.plus_one),
+            icon: const Icon(Icons.plus_one),
           ),
         ],
       ),
@@ -121,7 +128,7 @@ class CardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color selectedColor = Colors.red;
+    Color selectedColor = Colors.white;
 
     if (selected) {
       selectedColor = Colors.greenAccent;
@@ -136,10 +143,10 @@ class CardItem extends StatelessWidget {
           child: SizedBox(
             height: 80,
             child: Card(
-              color: Colors.amber,
+              color: Colors.red.shade900,
               child: Center(
                 child: Text(
-                  'Item ${item}',
+                  'Item $item',
                   style: TextStyle(
                     color: selectedColor,
                   ),
