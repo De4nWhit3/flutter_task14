@@ -141,6 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class QuestionFormWidget extends StatefulWidget {
   final Question question;
+
   const QuestionFormWidget({super.key, required this.question});
 
   @override
@@ -148,6 +149,8 @@ class QuestionFormWidget extends StatefulWidget {
 }
 
 class _QuestionFormWidgetState extends State<QuestionFormWidget> {
+  bool _showHintOne = false;
+  bool _showHintTwo = false;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -256,7 +259,18 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
                 ),
               ),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    if (!_showHintOne) {
+                      _showHintOne = true;
+                      return;
+                    }
+                    if (!_showHintTwo) {
+                      _showHintTwo = true;
+                      return;
+                    }
+                  });
+                },
                 child: const Text(
                   'Show Hint',
                   style: TextStyle(
@@ -269,16 +283,22 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              'Hint 1: ${question.hints[0]}',
-              style: const TextStyle(color: Colors.white),
+            Visibility(
+              visible: _showHintOne,
+              child: Text(
+                'Hint 1: ${question.hints[0]}',
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Hint 2: ${question.hints[1]}',
-              style: const TextStyle(color: Colors.white),
+            Visibility(
+              visible: _showHintTwo,
+              child: Text(
+                'Hint 2: ${question.hints[1]}',
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ));
