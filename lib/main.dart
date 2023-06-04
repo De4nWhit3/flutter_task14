@@ -131,33 +131,136 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.white.withOpacity(0.8)),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: AnimationLimiter(
-          child: ListView.builder(
-            itemCount: questions.length,
-            itemBuilder: (BuildContext context, int index) {
-              return AnimationConfiguration.staggeredList(
-                position: index,
-                duration: const Duration(seconds: 1),
-                child: SlideAnimation(
-                  verticalOffset: 50.0,
-                  child: FadeInAnimation(
-                    child: Column(
-                      children: [
-                        QuestionCard(
-                          question: questions[index],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
+      body: QuestionFormWidget(
+        question: questions[0],
+      ),
+      // body: HomeScreenQuestionsWidget(questions: questions),
+    );
+  }
+}
+
+class QuestionFormWidget extends StatefulWidget {
+  final Question question;
+  const QuestionFormWidget({super.key, required this.question});
+
+  @override
+  State<QuestionFormWidget> createState() => _QuestionFormWidgetState();
+}
+
+class _QuestionFormWidgetState extends State<QuestionFormWidget> {
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    Question question = widget.question;
+    return Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              question.question,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(100),
+                ),
+              ),
+              child: Image(
+                height: 150,
+                width: 150,
+                fit: BoxFit.cover,
+                image: AssetImage(question.imageUrl),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30),
+                ),
+              ),
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 20,
+              ),
+              margin: const EdgeInsets.only(
+                left: 20,
+                right: 20,
+              ),
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Processing Data")));
+                }
+              },
+              child: const Text('Submit'),
+            ),
+          ],
+        ));
+  }
+}
+
+class HomeScreenQuestionsWidget extends StatelessWidget {
+  const HomeScreenQuestionsWidget({
+    super.key,
+    required this.questions,
+  });
+
+  final List<Question> questions;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: AnimationLimiter(
+        child: ListView.builder(
+          itemCount: questions.length,
+          itemBuilder: (BuildContext context, int index) {
+            return AnimationConfiguration.staggeredList(
+              position: index,
+              duration: const Duration(seconds: 1),
+              child: SlideAnimation(
+                verticalOffset: 50.0,
+                child: FadeInAnimation(
+                  child: Column(
+                    children: [
+                      QuestionCard(
+                        question: questions[index],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
