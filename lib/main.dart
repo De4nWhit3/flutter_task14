@@ -121,30 +121,42 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimationLimiter(
-        child: ListView.builder(
-          itemCount: questions.length,
-          itemBuilder: (BuildContext context, int index) {
-            return AnimationConfiguration.staggeredList(
-              position: index,
-              duration: const Duration(seconds: 1),
-              child: SlideAnimation(
-                verticalOffset: 50.0,
-                child: FadeInAnimation(
-                  child: Column(
-                    children: [
-                      QuestionCard(
-                        question: questions[index],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
+      backgroundColor: Colors.redAccent,
+      appBar: AppBar(
+        backgroundColor: Colors.red.shade900,
+        centerTitle: true,
+        title: Text(
+          'Dean\'s Quiz App',
+          style: TextStyle(color: Colors.white.withOpacity(0.8)),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: AnimationLimiter(
+          child: ListView.builder(
+            itemCount: questions.length,
+            itemBuilder: (BuildContext context, int index) {
+              return AnimationConfiguration.staggeredList(
+                position: index,
+                duration: const Duration(seconds: 1),
+                child: SlideAnimation(
+                  verticalOffset: 50.0,
+                  child: FadeInAnimation(
+                    child: Column(
+                      children: [
+                        QuestionCard(
+                          question: questions[index],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -159,16 +171,27 @@ class QuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle textStyle = const TextStyle(color: Colors.white);
     return Container(
-      color: Colors.red.shade900,
+      decoration: BoxDecoration(
+        color: Colors.red.shade900,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
           children: [
             Row(
               children: [
-                SizedBox(
+                Container(
                     height: 60,
                     width: 60,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(100),
+                      ),
+                    ),
                     child: Image(
                       fit: BoxFit.cover,
                       image: AssetImage(question.imageUrl),
