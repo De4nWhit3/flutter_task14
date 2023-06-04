@@ -12,6 +12,7 @@ class QuestionFormWidget extends StatefulWidget {
 }
 
 class _QuestionFormWidgetState extends State<QuestionFormWidget> {
+  int attempts = 3;
   bool _showHintOne = false;
   bool _showHintTwo = false;
   final _formKey = GlobalKey<FormState>();
@@ -36,6 +37,7 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
                 ),
                 Text(
                   question.question,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -78,6 +80,9 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
                   ),
                   child: TextFormField(
                     validator: (value) {
+                      if (attempts == 1) {
+                        return "Answer was: ${question.answer}";
+                      }
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
                       }
@@ -85,6 +90,7 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
                           question.answer.toUpperCase()) {
                         return null;
                       } else {
+                        attempts--;
                         return 'Answer was not correct';
                       }
                     },
@@ -136,10 +142,12 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
                       setState(() {
                         if (!_showHintOne) {
                           _showHintOne = true;
+                          attempts--;
                           return;
                         }
                         if (!_showHintTwo) {
                           _showHintTwo = true;
+                          attempts--;
                           return;
                         }
                       });
