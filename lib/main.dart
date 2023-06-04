@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'list_model.dart';
+import 'widgets/card_item.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -15,13 +18,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key});
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -29,14 +32,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  late ListModel<int> _list;
-  int? _selectedItem;
-  late int _nextItem;
+  late ListModel<Question> _list;
+  Question? _selectedItem;
+  late Question _nextItem;
   @override
   void initState() {
     super.initState();
-    _list = ListModel<int>(listKey: _listKey, initialItems: <int>[0, 1, 2]);
-    _nextItem = 3;
+    _list = ListModel<Question>(listKey: _listKey, initialItems: <Question>[
+      Question(
+          answer: 'answer',
+          hints: ['hints'],
+          question: 'question',
+          category: 'category'),
+    ]);
+    _nextItem = Question(
+        answer: 'answer',
+        hints: ['hints'],
+        question: 'question',
+        category: 'category');
   }
 
   Widget _buildItem(
@@ -56,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _insert() {
     final int index =
         _selectedItem == null ? _list.length : _list.indexOf(_selectedItem!);
-    _list.insert(index, _nextItem++);
+    _list.insert(index, _list[0]);
   }
 
   @override
@@ -90,72 +103,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class ListModel<E> {
-  final GlobalKey<AnimatedListState> listKey;
-  final List<E> _items;
+class Question {
+  final String question;
+  final String answer;
+  final String category;
+  final List<String> hints;
 
-  ListModel({
-    required this.listKey,
-    Iterable<E>? initialItems,
-  }) : _items = List<E>.from(initialItems ?? <E>[]);
+  Question({
+    required this.answer,
+    required this.hints,
+    required this.question,
+    required this.category,
+  });
 
-  AnimatedListState? get _animatedList => listKey.currentState;
-
-  void insert(int index, E item) {
-    _items.insert(index, item);
-    _animatedList!.insertItem(index);
-  }
-
-  int get length => _items.length;
-
-  E operator [](int index) => _items[index];
-
-  int indexOf(E item) => _items.indexOf(item);
-}
-
-class CardItem extends StatelessWidget {
-  final Animation<double> animation;
-  final VoidCallback? onTap;
-  final int item;
-  final bool selected;
-  const CardItem({
-    super.key,
-    this.onTap,
-    this.selected = false,
-    required this.animation,
-    required this.item,
-  }) : assert(item >= 0);
-
-  @override
-  Widget build(BuildContext context) {
-    Color selectedColor = Colors.white;
-
-    if (selected) {
-      selectedColor = Colors.greenAccent;
-    }
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SizeTransition(
-        sizeFactor: animation,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onTap,
-          child: SizedBox(
-            height: 80,
-            child: Card(
-              color: Colors.red.shade900,
-              child: Center(
-                child: Text(
-                  'Item $item',
-                  style: TextStyle(
-                    color: selectedColor,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+  (String, String, String, List<String>) getInfo() {
+    return (question, answer, category, hints);
   }
 }
