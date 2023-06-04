@@ -1,14 +1,13 @@
-import 'package:assignment_14/main.dart';
 import 'package:flutter/material.dart';
+
+import '../question.dart';
 
 class CardItem extends StatelessWidget {
   final Animation<double> animation;
-  final VoidCallback? onTap;
   final Question item;
   final bool selected;
   const CardItem({
     super.key,
-    this.onTap,
     this.selected = false,
     required this.animation,
     required this.item,
@@ -27,7 +26,7 @@ class CardItem extends StatelessWidget {
         sizeFactor: animation,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: onTap,
+          onTap: () {},
           child: SizedBox(
             height: 80,
             child: Card(

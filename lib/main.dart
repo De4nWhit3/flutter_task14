@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'list_model.dart';
+import 'question.dart';
 import 'widgets/card_item.dart';
 
 void main() {
@@ -58,11 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
       animation: animation,
       item: _list[index],
       selected: _selectedItem == _list[index],
-      onTap: () {
-        setState(() {
-          _selectedItem = _selectedItem == _list[index] ? null : _list[index];
-        });
-      },
     );
   }
 
@@ -100,23 +96,5 @@ class _MyHomePageState extends State<MyHomePage> {
             itemBuilder: _buildItem),
       ),
     );
-  }
-}
-
-class Question {
-  final String question;
-  final String answer;
-  final String category;
-  final List<String> hints;
-
-  Question({
-    required this.answer,
-    required this.hints,
-    required this.question,
-    required this.category,
-  });
-
-  (String, String, String, List<String>) getInfo() {
-    return (question, answer, category, hints);
   }
 }
