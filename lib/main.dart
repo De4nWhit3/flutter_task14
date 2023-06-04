@@ -211,14 +211,32 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
                 },
               ),
             ),
-            TextButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Processing Data")));
-                }
-              },
-              child: const Text('Submit'),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: 200,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30),
+                ),
+              ),
+              child: TextButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Processing Data")));
+                  }
+                },
+                child: const Text(
+                  'Submit',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             ),
           ],
         ));
