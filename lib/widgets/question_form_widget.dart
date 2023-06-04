@@ -80,15 +80,14 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
                   ),
                   child: TextFormField(
                     validator: (value) {
-                      if (attempts == 1) {
-                        return "Answer was: ${question.answer}";
-                      }
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
                       }
                       if (value.toUpperCase() ==
                           question.answer.toUpperCase()) {
                         return null;
+                      } else if (attempts == 1) {
+                        return "Answer was: ${question.answer}";
                       } else {
                         attempts--;
                         return 'Answer was not correct';
