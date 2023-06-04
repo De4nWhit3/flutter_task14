@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:assignment_14/widgets/question_form_widget.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +36,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Question> questions = [];
-
+  Random random = new Random();
+  int randomIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -137,6 +141,21 @@ class _MyHomePageState extends State<MyHomePage> {
       //   question: questions[0],
       // ),
       body: HomeScreenQuestionsWidget(questions: questions),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.greenAccent,
+        foregroundColor: Colors.black,
+        onPressed: () {
+          randomIndex = random.nextInt(questions.length);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  QuestionFormWidget(question: questions[randomIndex]),
+            ),
+          );
+        },
+        label: const Text('Random Question'),
+        icon: const Icon(Icons.recycling),
+      ),
     );
   }
 }
