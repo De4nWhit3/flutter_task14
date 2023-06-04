@@ -1,8 +1,5 @@
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter/material.dart';
-
-import 'list_model.dart';
-import 'question.dart';
-import 'widgets/card_item.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +13,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       home: const MyHomePage(),
@@ -32,68 +28,31 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  late ListModel<Question> _list;
-  Question? _selectedItem;
-  late Question _nextItem;
   @override
   void initState() {
     super.initState();
-    _list = ListModel<Question>(listKey: _listKey, initialItems: <Question>[
-      Question(
-          answer: 'answer',
-          hints: ['hints'],
-          question: 'question',
-          category: 'category'),
-    ]);
-    _nextItem = Question(
-        answer: 'answer',
-        hints: ['hints'],
-        question: 'question',
-        category: 'category');
-  }
-
-  Widget _buildItem(
-      BuildContext context, int index, Animation<double> animation) {
-    return CardItem(
-      animation: animation,
-      item: _list[index],
-      selected: _selectedItem == _list[index],
-    );
-  }
-
-  void _insert() {
-    final int index =
-        _selectedItem == null ? _list.length : _list.indexOf(_selectedItem!);
-    _list.insert(index, _list[0]);
+    // initialize list
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red.shade400,
-      appBar: AppBar(
-        backgroundColor: Colors.red.shade600,
-        centerTitle: true,
-        title: Text(
-          'Dean\'s Quiz App',
-          style: TextStyle(
-            color: Colors.white.withOpacity(.7),
-          ),
+      body: AnimationLimiter(
+        child: ListView.builder(
+          itemCount: 10,
+          itemBuilder: (BuildContext context, int index) {
+            return AnimationConfiguration.staggeredList(
+              position: index,
+              duration: const Duration(seconds: 1),
+              child: const SlideAnimation(
+                verticalOffset: 50.0,
+                child: FadeInAnimation(
+                  child: Text('Hello potatoes'),
+                ),
+              ),
+            );
+          },
         ),
-        actions: [
-          IconButton(
-            onPressed: _insert,
-            icon: const Icon(Icons.plus_one),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: AnimatedList(
-            key: _listKey,
-            initialItemCount: _list.length,
-            itemBuilder: _buildItem),
       ),
     );
   }
