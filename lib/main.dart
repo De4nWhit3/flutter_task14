@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         useMaterial3: true,
@@ -131,10 +132,11 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.white.withOpacity(0.8)),
         ),
       ),
-      body: QuestionFormWidget(
-        question: questions[0],
-      ),
-      // body: HomeScreenQuestionsWidget(questions: questions),
+
+      // body: QuestionFormWidget(
+      //   question: questions[0],
+      // ),
+      body: HomeScreenQuestionsWidget(questions: questions),
     );
   }
 }
