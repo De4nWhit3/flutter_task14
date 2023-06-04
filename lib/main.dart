@@ -207,7 +207,11 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
                   }
-                  return null;
+                  if (value.toUpperCase() == question.answer.toUpperCase()) {
+                    return null;
+                  } else {
+                    return 'Answer was not correct';
+                  }
                 },
               ),
             ),
@@ -225,8 +229,10 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
               child: TextButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Processing Data")));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Answer was correct!"),
+                      backgroundColor: Colors.green,
+                    ));
                   }
                 },
                 child: const Text(
@@ -237,6 +243,42 @@ class _QuestionFormWidgetState extends State<QuestionFormWidget> {
                   ),
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: 200,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30),
+                ),
+              ),
+              child: TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'Show Hint',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Hint 1: ${question.hints[0]}',
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Hint 2: ${question.hints[1]}',
+              style: const TextStyle(color: Colors.white),
             ),
           ],
         ));
