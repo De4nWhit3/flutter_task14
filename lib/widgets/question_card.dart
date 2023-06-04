@@ -1,3 +1,4 @@
+import 'package:assignment_14/widgets/question_form_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../question.dart';
@@ -19,7 +20,11 @@ class QuestionCard extends StatelessWidget {
           color: Colors.red.shade900,
         ),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => QuestionFormWidget(question: question),
+            ));
+          },
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Column(
