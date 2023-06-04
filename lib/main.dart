@@ -2,6 +2,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter/material.dart';
 
 import 'question.dart';
+import 'widgets/question_card.dart';
 
 void main() {
   runApp(const MyApp());
@@ -157,58 +158,6 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class QuestionCard extends StatelessWidget {
-  final Question question;
-  const QuestionCard({super.key, required this.question});
-
-  @override
-  Widget build(BuildContext context) {
-    TextStyle textStyle = const TextStyle(color: Colors.white);
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.red.shade900,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(20),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                    height: 60,
-                    width: 60,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(100),
-                      ),
-                    ),
-                    child: Image(
-                      fit: BoxFit.cover,
-                      image: AssetImage(question.imageUrl),
-                    )),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: Text(
-                    'Question: ${question.question}',
-                    style: textStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
-          ],
         ),
       ),
     );
